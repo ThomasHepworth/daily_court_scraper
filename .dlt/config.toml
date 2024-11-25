@@ -1,0 +1,26 @@
+[schema]
+export_schema_path="schemas/export"
+import_schema_path="schemas/import"
+naming="src.custom_snake_case"
+
+[api]
+base_url = "http://xhibit.justice.gov.uk"
+court_list_endpoint = "court_lists.htm"
+court_table_headers = ["Court Number", "Case Number", "Name", "Current Status"]
+
+[destination.filesystem]
+bucket_url="court_data"
+layout="{table_name}/run_timestamp={YYYY}-{MM}-{DD}_{HH}-{mm}-{ss}/{load_id}.{file_id}.{ext}"
+# for automatic directory creation in the local filesystem
+kwargs = '{"auto_mkdir": true}'
+
+
+[pipeline]
+pipeline_name="daily_courts_scraper"
+pipeline_dir=".dlt/pipelines"
+
+[normalize]
+loader_file_format="jsonl"
+
+[normalize.data_writer]
+disable_compression=true
