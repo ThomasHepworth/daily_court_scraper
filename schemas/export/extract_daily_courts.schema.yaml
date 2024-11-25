@@ -1,0 +1,163 @@
+version: 2
+version_hash: 5bF9Uy3YNkFws+GZl7y8RS/4to4PPUwqGBS+5Ofy/LY=
+engine_version: 10
+name: extract_daily_courts
+tables:
+  _dlt_version:
+    columns:
+      version:
+        data_type: bigint
+        nullable: false
+      engine_version:
+        data_type: bigint
+        nullable: false
+      inserted_at:
+        data_type: timestamp
+        nullable: false
+      schema_name:
+        data_type: text
+        nullable: false
+      version_hash:
+        data_type: text
+        nullable: false
+      schema:
+        data_type: text
+        nullable: false
+    write_disposition: skip
+    resource: _dlt_version
+    description: Created by DLT. Tracks schema updates
+  _dlt_loads:
+    columns:
+      load_id:
+        data_type: text
+        nullable: false
+      schema_name:
+        data_type: text
+        nullable: true
+      status:
+        data_type: bigint
+        nullable: false
+      inserted_at:
+        data_type: timestamp
+        nullable: false
+      schema_version_hash:
+        data_type: text
+        nullable: true
+    write_disposition: skip
+    resource: _dlt_loads
+    description: Created by DLT. Tracks completed loads
+  daily_courts:
+    columns: {}
+    write_disposition: replace
+    resource: court_room_details
+  _dlt_pipeline_state:
+    columns:
+      version:
+        data_type: bigint
+        nullable: false
+      engine_version:
+        data_type: bigint
+        nullable: false
+      pipeline_name:
+        data_type: text
+        nullable: false
+      state:
+        data_type: text
+        nullable: false
+      created_at:
+        data_type: timestamp
+        nullable: false
+      version_hash:
+        data_type: text
+        nullable: true
+      _dlt_load_id:
+        data_type: text
+        nullable: false
+      _dlt_id:
+        data_type: text
+        nullable: false
+        unique: true
+        row_key: true
+    write_disposition: append
+    file_format: preferred
+    resource: _dlt_pipeline_state
+    x-normalizer:
+      seen-data: true
+  daily_courts_feed:
+    columns:
+      court_region:
+        data_type: text
+        nullable: true
+      last_updated_timestamp:
+        data_type: timestamp
+        nullable: true
+      court_name:
+        data_type: text
+        nullable: true
+      court_number:
+        data_type: text
+        nullable: true
+      case_number:
+        data_type: text
+        nullable: true
+      trial_status:
+        data_type: text
+        nullable: true
+      _dlt_load_id:
+        data_type: text
+        nullable: false
+      _dlt_id:
+        data_type: text
+        nullable: false
+        unique: true
+        row_key: true
+    write_disposition: append
+    resource: daily_courts_feed
+    x-normalizer:
+      seen-data: true
+  daily_courts_feed__defendant_name:
+    columns:
+      value:
+        data_type: text
+        nullable: true
+      _dlt_parent_id:
+        data_type: text
+        nullable: false
+        parent_key: true
+      _dlt_list_idx:
+        data_type: bigint
+        nullable: false
+      _dlt_id:
+        data_type: text
+        nullable: false
+        unique: true
+        row_key: true
+    parent: daily_courts_feed
+    x-normalizer:
+      seen-data: true
+settings:
+  detections:
+  - iso_timestamp
+  default_hints:
+    not_null:
+    - _dlt_id
+    - _dlt_root_id
+    - _dlt_parent_id
+    - _dlt_list_idx
+    - _dlt_load_id
+    parent_key:
+    - _dlt_parent_id
+    root_key:
+    - _dlt_root_id
+    unique:
+    - _dlt_id
+    row_key:
+    - _dlt_id
+normalizers:
+  names: src.custom_snake_case
+  json:
+    module: dlt.common.normalizers.json.relational
+previous_hashes:
+- hTDMTaTo13ijRm5T895JnfJYtoSYmjVgjHam1zgEtqw=
+- RQx+DqiDI6RjxhoqBACUrJ6I1qSbEEYrQq76IVNaDjg=
+- GiS64SCT3qj26DGtMePBWnhuLOj0JZSltPH226TaxpU=
