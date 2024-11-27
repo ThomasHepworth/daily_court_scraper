@@ -26,11 +26,11 @@ jobs:
         run: uv python install '3.12'
 
       - name: Install the project
-        run: uv sync --all-extras --dev
+        run: uv sync
 
       - name: Run Update Script
         run: |
-          python main.py
+          uv run main.py
 
       - name: Commit and Push Changes
         uses: stefanzweifel/git-auto-commit-action@v4
