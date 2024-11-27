@@ -1,4 +1,5 @@
 [project]
+version = "1.0.0"
 name = "daily-court-scraper"
 description = """
    Daily scraper of http://xhibit.justice.gov.uk/court_lists.htm data.
