@@ -1,8 +1,9 @@
 import os
-from bs4 import BeautifulSoup
-from src.scrapers.scraper import fetch_webpage_html
-
 from functools import lru_cache
+
+from bs4 import BeautifulSoup
+
+from src.scrapers.scraper import fetch_webpage_html
 
 TEST_DATA_DIR = "tests/test_data/"
 
