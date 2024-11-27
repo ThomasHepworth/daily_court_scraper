@@ -37,6 +37,7 @@ GitHub Actions are stored in `.github/workflows/`. Workflows are triggered on di
 
 This project uses the following workflows:
 - [lint-and-format.yml](./.github/workflows/lint-and-format.yml): Runs linting and formatting on PRs to main
+- [daily-scraper.yml](./.github/workflows/daily-scraper.yml): Runs the scraper daily at 6am
 
 ## Running the Scraper
 
