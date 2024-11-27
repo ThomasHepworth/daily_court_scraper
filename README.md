@@ -6,21 +6,16 @@ A basic web scraper powered by `dlt` that scrapes the daily court schedule from 
 
 ### Dependency Management
 
-This project utilises both a `pyproject.toml` and a `requirements.txt` file, managed with `pip-tools`. The top-level dependencies are defined in the [pyproject.toml](../pyproject.toml) file and can be compiled into a `requirements.txt` file for use with `pip`.
+This project utilises a `pyproject.toml` in conjunction with [`uv`](https://docs.astral.sh/uv/) to manage dependencies. The top-level dependencies are defined in the [pyproject.toml](../pyproject.toml) file and can be compiled into a lock file [uv.lock](./uv.lock) using `uv`.
 
-#### Compiling Dependencies
-
-To compile the dependencies from `pyproject.toml` into `requirements.txt`, run the following command:
+To compile the dependencies, run the following command:
 ```sh
-uv pip compile pyproject.toml --all-extras --output-file=requirements.txt --generate-hashes
+uv sync pyproject.toml
 ```
 
-#### Installing Dependencies
-
-Once the requirements.txt file is generated, dependencies can be installed using pip:
-
+To install the dependencies, run the following command:
 ```sh
-pip install -r requirements.txt
+uv pip sync pyproject.toml
 ```
 
 ### Linting and Code Formatting
