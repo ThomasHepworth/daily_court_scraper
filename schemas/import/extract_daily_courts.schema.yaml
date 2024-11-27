@@ -1,5 +1,5 @@
 version: 1
-version_hash: hTDMTaTo13ijRm5T895JnfJYtoSYmjVgjHam1zgEtqw=
+version_hash: F8g1Il1CTQuZ33UGdPS5HLraqfm0seB4LgEZPj0aM3M=
 engine_version: 10
 name: extract_daily_courts
 tables:
@@ -46,9 +46,9 @@ tables:
     write_disposition: skip
     resource: _dlt_loads
     description: Created by DLT. Tracks completed loads
-  daily_courts:
+  daily_courts_feed:
     columns: {}
-    write_disposition: replace
+    write_disposition: append
     resource: court_room_details
   _dlt_pipeline_state:
     columns:
@@ -99,4 +99,4 @@ normalizers:
   json:
     module: dlt.common.normalizers.json.relational
 previous_hashes:
-- GiS64SCT3qj26DGtMePBWnhuLOj0JZSltPH226TaxpU=
+- S40cd3SQK2tVhm3qIlY94QFauBvSkOJavjgKPH7Z57I=
