@@ -38,7 +38,7 @@ class CourtInfo(NamedTuple):
 class CourtRoomData(BaseModel):
     court_number: str
     case_number: str
-    defendant_name: List[str]
+    defendant_name: str
     trial_status: str
 
     @classmethod
@@ -51,9 +51,7 @@ class CourtRoomData(BaseModel):
             return cls(
                 court_number=sanitise_text(row_contents[0].get_text(strip=True)),
                 case_number=sanitise_text(row_contents[1].get_text(strip=True)),
-                defendant_name=split_defendant_name(
-                    row_contents[2].get_text(strip=True)
-                ),
+                defendant_name=split_defendant_name(row_contents[2]),
                 trial_status=sanitise_text(row_contents[3].get_text(strip=True)),
             )
         except IndexError as e:
@@ -64,7 +62,8 @@ class CourtRoomData(BaseModel):
     def dict(self, **kwargs) -> Dict[str, Any]:
         """
         Returns the model as a dictionary with optionally custom serialisation.
-        Overrides BaseModel's `dict()` method to handle non-serialisable fields or rename keys.
+        Overrides BaseModel's `dict()` method to handle non-serialisable fields or
+        rename keys.
         """
         return super().model_dump(**kwargs)
 
@@ -88,9 +87,28 @@ def parse_last_updated_datetime(page_contents: BeautifulSoup) -> str:
     raise ValueError("Could not find a valid datetime string in <p> tags.")
 
 
-def split_defendant_name(defendant_name: str) -> List[str]:
-    defendants = defendant_name.split("<br>")
-    return [sanitise_text(defendant) for defendant in defendants]
+def split_defendant_name(defendant_contents: BeautifulSoup) -> str:
+    """
+    Parses defendant contents, collapsing <br> or similar tags into a single,
+    semicolon-delimited string of sanitised names.
+
+    Args:
+        defendant_contents (BeautifulSoup): HTML content containing defendant names.
+
+    Returns:
+        str: Semicolon-delimited string of defendant names.
+    """
+    if not defendant_contents or not defendant_contents.text.strip():
+        return ""
+
+    # Extract and sanitise text, ignoring non-string elements
+    defendant_names = [
+        sanitise_text(str(content))
+        for content in defendant_contents.contents
+        if isinstance(content, str)
+    ]
+
+    return ";".join(name for name in defendant_names if name)
 
 
 def get_daily_court_table_info(
