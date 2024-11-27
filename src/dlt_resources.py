@@ -48,9 +48,10 @@ def extract_court_details() -> Generator[CourtEndpoint, None, None]:
         yield court_endpoint
 
 
+# TODO(ThomasHepworth): Work out a better write disposition for this resource
 @dlt.transformer(
     data_from=extract_court_details,
-    write_disposition="replace",
+    write_disposition="append",
     parallelized=True,
 )
 def court_room_details(
