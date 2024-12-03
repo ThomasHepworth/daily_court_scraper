@@ -42,7 +42,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: |
-            chore(court_data): update court data on $(date +'%Y-%m-%d')
+            chore(court_data): update court data on ${{ env.DATE }}
           file_pattern: court_data/**/*
-          branch: main  # Replace with your target branch
-          commit_options: '--no-verify'  # Optional: skip pre-commit hooks
+          branch: main
+          commit_options: '--no-verify'
