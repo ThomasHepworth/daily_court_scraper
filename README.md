@@ -6,8 +6,6 @@ A lightweight web scraper powered by `dlt` that retrieves the daily court schedu
 
 ## Data Pipeline Overview
 
-This pipeline follows a structured workflow, as illustrated below:
-
 ![Pipeline Diagram](./docs/images/daily_court_scraper.excalidraw.png)
 
 ### Pipeline Stages
