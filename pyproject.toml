@@ -15,11 +15,13 @@ dependencies = [
     "pydantic>=2.9,<3.0",
     "botocore>=1.35,<2.0",
     "mypy>=1.11.2",
-    "beautifulsoup4>=4.0.0"
+    "beautifulsoup4>=4.0.0",
+    "dbt-core>=1.8.8",
+    "dbt-duckdb>=1.8.0"
 ]
 
 [project.optional-dependencies]
-linting = ["ruff>=0.6,<1.0"]
+linting = ["ruff>=0.6,<1.0", "sqlfluff==3.3.0"]
 testing = ["pytest>=8.3,<9.0"]
 dev = ["ipykernel>=6.26,<7.0"]
 

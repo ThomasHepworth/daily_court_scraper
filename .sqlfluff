@@ -1,0 +1,23 @@
+[sqlfluff]
+paths = court_scraper_dbt/
+templater = jinja
+dialect = duckdb
+exclude_rules = L025, L026, L031
+rules = core
+max_line_length = 88
+ignore_templated_areas = True
+
+[sqlfluff:rules]
+single_table_references = consistent
+unquoted_identifiers_policy = all
+capitalisation_policy = consistent
+
+[sqlfluff:layout:type:comma]
+line_position=trailing
+
+[sqlfluff:indentation]
+tab_space_size = 2
+indent_unit = space
+
+[sqlfluff:templater:jinja]
+load_macros_from_path=court_scraper_dbt/macros

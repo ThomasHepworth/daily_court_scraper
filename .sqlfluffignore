@@ -1,0 +1,22 @@
+# Ignore virtual environments
+venv/
+.venv/
+
+# Ignore Python package dependencies
+env/
+__pycache__/
+*.pyc
+
+# Ignore compiled and temporary DBT files
+dbt_packages/
+logs/
+target/
+
+# Ignore backup or archive folders
+archive/
+bak/
+old_versions/
+
+# Ignore test directories (optional)
+tests/
+test_data/
