@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: stg_courtroom_data
+    description: "Staging table for courtroom data, consolidating all JSONL files from subdirectories."
+    columns:
+      - name: court_region
+        description: "The region of the courtroom."
+      - name: last_updated_timestamp
+        description: "The timestamp of the last update to the courtroom data."
+      - name: court_name
+        description: "The name of the court. Regions are divided into multiple courts."
+      - name: court_number
+        description: "The number of the courtroom."
+      - name: case_number
+        description: "The case number associated with the defendant."
+      - name: defendant_name
+        description: "The name of the defendant."
+      - name: trial_status
+        description: "The current status of the trial."
+
+  - name: courtroom_data
+    description: "A cleaned and structured table containing courtroom case records with standardised attributes."
+    columns:
+      - name: sk_court_case
+        description: "Surrogate key uniquely identifying a courtroom case record."
+        tests:
+          - unique
+          - not_null
+
+      - name: court_region
+        description: "The region where the court is located."
+        tests:
+          - not_null
+
+      - name: court_name
+        description: "The name of the specific court within a region."
+        tests:
+          - not_null
+
+      - name: court_number
+        description: "The number of the courtroom within a court."
+        tests:
+          - not_null
+
+      - name: case_number
+        description: "The unique identifier for the legal case."
+        tests:
+          - not_null
+
+      - name: defendant_names
+        description: "A list of defendants' names involved in the case, split if multiple exist."
+        tests:
+          - no_empty_arrays
+          - no_empty_values_in_array
+
+      - name: last_updated_timestamp
+        description: "The timestamp of the last update to the courtroom data."
+        tests:
+          - not_null
+
+      - name: week_day
+        description: "The name of the day corresponding to the last updated timestamp (e.g., Monday, Tuesday)."
+
+      - name: free_text_trial_status
+        description: "Raw textual representation of the trial status before any transformation. This will typically contain a timestamp, stating the change in trial status or adding contextual information such as a future sentencing date."
+
+      - name: court_room_in_use
+        description: "Boolean flag (0 or 1) indicating whether the courtroom is in use."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+
+      - name: trial_status
+        description: "Extracted structured trial status if the courtroom is in use."
