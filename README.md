@@ -2,6 +2,27 @@
 
 A basic web scraper powered by `dlt` that scrapes the daily court schedule from the UK [Xhibit Court List](http://xhibit.justice.gov.uk/court_lists.htm). The scraper runs daily at 6am via a Github action and outputs data in JSONL format to the `data` directory.
 
+## Data Pipeline Overview
+
+This pipeline follows a structured workflow, as illustrated in the diagram below:
+
+![Pipeline Diagram](./docs/images/daily_court_scraper.excalidraw.png)
+
+### Pipeline Stages
+
+1. **Scraper:**
+   The pipeline begins by retrieving the daily court schedule from the UK Xhibit Court List. This is handled by a simple Python script that utilises the `requests` and `beautifulsoup4` libraries to scrape the necessary data.
+
+2. **Extract-Load with `dlt`:**
+   Once extracted, the raw data is passed to `dlt` for **extraction, normalisation, and loading**. `dlt` processes the scraped information, parses it, and stores it in a structured **JSONL file**.
+
+3. **Transformation with `dbt`:**
+   The structured data is then processed using `dbt`, which applies transformations to create a well-defined model for analysis. These transformations are housed in the `court_transformer` directory.
+
+### Orchestration
+
+The **extract-load process is fully automated** using a [GitHub Action that runs daily at 6 AM](./.github/workflows/update-court-data.yml). This action triggers the scraper, passes the data to `dlt` for processing, and outputs the final files to the `court_data` directory. Each dataset is **timestamped**, allowing users to locate the data for a specific day by referencing the corresponding file.
+
 ## Getting Started
 
 ### Dependency Management
