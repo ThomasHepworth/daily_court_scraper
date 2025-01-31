@@ -1,0 +1,11 @@
+duckdb_profile:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # path: dbt_dump/dbt.duckdb
+      path: dbt.duckdb
+      extensions:
+        - parquet
+      threads: 4
+      extensions: [ 'sqlite' ]
