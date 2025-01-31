@@ -15,8 +15,56 @@ uv sync pyproject.toml
 
 To install the dependencies, run the following command:
 ```sh
-uv pip sync pyproject.toml
+uv pip install -r pyproject.toml --all-extras
 ```
+
+## Running the Scraper
+
+To execute the scraper, run the following command:
+
+```sh
+python3 -m main.py
+```
+
+This will retrieve the daily court schedule and store the output in the `court_data` directory.
+
+---
+
+# dbt
+
+The `dbt` project is responsible for transforming the raw data into a structured format. It is located within the `dbt` directory, specifically under the `court_scraper_dbt` folder.
+
+Before running any `dbt` commands, ensure you have installed all necessary dependencies (see the section on [Dependency Management](#dependency-management)). You must also configure the `dbt` profile to connect to the correct database. This profile is defined in the `profiles.yml` file. To point `dbt` to this file, set the `DBT_PROFILES_DIR` environment variable:
+
+```sh
+export DBT_PROFILES_DIR='../.dbt'
+```
+
+> [!NOTE]
+> To persist this setting across terminal sessions, add the export command to your `.bashrc` or `.zshrc` file.
+
+---
+
+## Running dbt
+
+The `dbt` models are located in the `court_transformer` directory and are structured as follows:
+
+- **Staging:** Loads raw data into the database.
+- **Transform:** Applies transformations to structure the data for analysis.
+
+To run the transformation models, use:
+
+```sh
+dbt run --select court_transformer
+```
+
+To run the associated tests for data integrity:
+
+```sh
+dbt test --select court_transformer
+```
+
+For a more detailed guide on `dbt` commands and functionality, refer to the official [dbt documentation](https://docs.getdbt.com/).
 
 ### Linting and Code Formatting
 
@@ -38,12 +86,3 @@ GitHub Actions are stored in `.github/workflows/`. Workflows are triggered on di
 This project uses the following workflows:
 - [lint-and-format.yml](./.github/workflows/lint-and-format.yml): Runs linting and formatting on PRs to main
 - [daily-scraper.yml](./.github/workflows/daily-scraper.yml): Runs the scraper daily at 6am
-
-## Running the Scraper
-
-To run the scraper, simply execute the following command:
-```sh
-python3 -m main.py
-```
-
-This will scrape the daily court schedule and output the data to the `court_data` directory.
