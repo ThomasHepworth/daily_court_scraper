@@ -1,0 +1,27 @@
+name: 'court_scraper_dbt'
+version: '1.0.0'
+
+profile: 'duckdb_profile'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+models:
+  court_scraper_dbt:
+    court_transformer:
+      +schema:
+      stg_courtroom_data:
+        +materialized: ephemeral
+        +materialized: view
+
+vars:
+  daily_court_json_feed: "../court_data/extract_daily_courts_dataset/daily_courts_feed"
