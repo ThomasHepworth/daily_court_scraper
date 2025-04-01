@@ -3,9 +3,8 @@ duckdb_profile:
   outputs:
     dev:
       type: duckdb
-      # path: dbt_dump/dbt.duckdb
       path: dbt.duckdb
       extensions:
         - parquet
+        - sqlite
       threads: 4
-      extensions: [ 'sqlite' ]
